@@ -31,6 +31,10 @@ Eigen::Matrix4f get_model_matrix(float rotation_angle)
         sin(angle), cos(angle), 0, 0,
         0, 0, 1, 0,
         0, 0, 0, 1;
+    //model(0, 0) = cos(angle);
+    //model(0, 2) = sin(angle);
+    //model(2, 0) = -sin(angle);
+    //model(2, 2) = cos(angle);
 
 
     return model;
@@ -70,10 +74,10 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio,
     return projection;
 }
 
-Eigen::Matrix4f get_rotation(Vector3f axis, float angle) {
-    Eigen::Matrix4f rot;
-
-}
+//Eigen::Matrix4f get_rotation(Vector3f axis, float angle) {
+//    Eigen::Matrix4f rot;
+//
+//}
 
 int main(int argc, const char** argv)
 {
@@ -95,7 +99,7 @@ int main(int argc, const char** argv)
 
     Eigen::Vector3f eye_pos = {0, 0, 5};
 
-    std::vector<Eigen::Vector3f> pos{{2, 0, -2}, {0, 2, -2}, {-2, 0, -2}};
+    std::vector<Eigen::Vector3f> pos{{2, 0, -1}, {0, 2, -2}, {-2, 0, -2}};
 
     std::vector<Eigen::Vector3i> ind{{0, 1, 2}};
 
@@ -110,7 +114,7 @@ int main(int argc, const char** argv)
 
         r.set_model(get_model_matrix(angle));
         r.set_view(get_view_matrix(eye_pos));
-        r.set_projection(get_projection_matrix(45, 1, -0.1, -50));
+        r.set_projection(get_projection_matrix(45,1, -0.1, -50));
 
         r.draw(pos_id, ind_id, rst::Primitive::Triangle);
         cv::Mat image(700, 700, CV_32FC3, r.frame_buffer().data());
